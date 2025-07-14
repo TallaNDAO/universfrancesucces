@@ -1,0 +1,78 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Résultat AVI</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom right, #f4f4f4, #fde8f4);
+      text-align: center;
+      padding: 30px;
+    }
+    .carte {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      display: inline-block;
+      padding: 30px;
+      text-align: left;
+      margin-top: 20px;
+    }
+    .carte p {
+      margin: 5px 0;
+    }
+    .btn {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .valide {
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <img src="logo.png" alt="Logo" width="120"><br><br>
+  <div class="carte">
+    <p class="valide">✔️ L'attestation est authentique !</p>
+    <p><strong>Nom et prénom de l'étudiant(e):</strong> <span id="nom"></span></p>
+    <p><strong>Numéro de l'AVI:</strong> <span id="avi"></span></p>
+    <p><strong>Date de délivrance:</strong> <span id="date"></span></p>
+    <p><strong>Montant mensuel de la caution:</strong> <span id="montant"></span></p>
+    <p><strong>Nombre de mois de blocage:</strong> <span id="mois"></span></p>
+    <br>
+    <button class="btn" onclick="window.history.back()">Retour</button>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const avi = params.get("avi");
+
+    const base = {
+      "U221FS346618": {
+        nom: "SECK Amy",
+        date: "4 juillet 2025",
+        montant: "615 €",
+        mois: "12 Mois"
+      }
+    };
+
+    if (avi in base) {
+      document.getElementById("nom").textContent = base[avi].nom;
+      document.getElementById("avi").textContent = avi;
+      document.getElementById("date").textContent = base[avi].date;
+      document.getElementById("montant").textContent = base[avi].montant;
+      document.getElementById("mois").textContent = base[avi].mois;
+    } else {
+      document.querySelector(".carte").innerHTML = `<p style="color:red;font-weight:bold;">❌ Attestation non reconnue</p><button class="btn" onclick="window.history.back()">Retour</button>`;
+    }
+  </script>
+</body>
+</html>
