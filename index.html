@@ -67,14 +67,25 @@
         <button onclick="verifierDocument()">Je vérifie le document</button>
     </div>
     <script>
-        function verifierDocument() {
-            const id = document.getElementById('identifiant').value.trim();
-            if (id) {
-                window.location.href = `etudiants/${id}.html`;
-            } else {
-                alert("Veuillez entrer un identifiant valide.");
-            }
+    // Liste des identifiants valides (tu peux en ajouter autant que tu veux ici)
+    const identifiantsValidés = [
+        "U221FS117616",
+        "U221FS117617",
+        "U221FS117618",
+        "U221FS117619",
+        "U221FS117620",
+        "U221FS117621"
+    ];
+
+    function verifierDocument() {
+        const id = document.getElementById('identifiant').value.trim();
+
+        if (identifiantsValidés.includes(id)) {
+            window.location.href = `etudiants/${id}.html`;
+        } else {
+            alert("❌ Identifiant non reconnu. Veuillez vérifier l'exactitude.");
         }
-    </script>
+    }
+</script>
 </body>
 </html>
