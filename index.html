@@ -7,12 +7,18 @@
   <style>
     body {
       font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f4f4f4, #ffe9f9);
       text-align: center;
       padding: 40px;
-      background: linear-gradient(to right, #f4f4f4, #ffe9f9);
     }
-    h1 {
-      color: #0f3057;
+    .carte {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      display: inline-block;
+      padding: 30px;
+      text-align: left;
+      margin-top: 20px;
     }
     input, button {
       padding: 10px;
@@ -26,15 +32,65 @@
       border-radius: 5px;
       cursor: pointer;
     }
+    .valide {
+      color: green;
+      font-weight: bold;
+    }
+    .invalide {
+      color: red;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
   <img src="logo.png" alt="Logo Univers France Succès" width="150"><br><br>
   <h1>Vérifiez votre attestation AVI</h1>
-  <form action="result.html" method="get">
-    <input type="text" name="avi" placeholder="Entrez le numéro de l'AVI" required>
-    <br>
-    <button type="submit">Vérifier</button>
-  </form>
+
+  <input type="text" id="aviInput" placeholder="Entrez votre numéro AVI">
+  <br>
+  <button onclick="verifierAVI()">Vérifier</button>
+
+  <div id="resultat" class="carte" style="display:none;"></div>
+
+  <script>
+    const base = {
+      "U221FS346618": {
+        nom: "SECK Amy",
+        date: "4 juillet 2025",
+        montant: "615 €",
+        mois: "12 Mois"
+      },
+      "U221FS346620": {
+        nom: "DIA Tapha",
+        date: "10 juillet 2025",
+        montant: "615 €",
+        mois: "12 Mois"
+      }
+    };
+
+    function verifierAVI() {
+      const avi = document.getElementById("aviInput").value.trim();
+      const resultatDiv = document.getElementById("resultat");
+
+      if (avi in base) {
+        const data = base[avi];
+        resultatDiv.innerHTML = `
+          <p class="valide">✔️ L'attestation est authentique !</p>
+          <p><strong>Nom et prénom :</strong> ${data.nom}</p>
+          <p><strong>Numéro de l'AVI :</strong> ${avi}</p>
+          <p><strong>Date de délivrance :</strong> ${data.date}</p>
+          <p><strong>Montant mensuel :</strong> ${data.montant}</p>
+          <p><strong>Durée :</strong> ${data.mois}</p>
+        `;
+      } else {
+        resultatDiv.innerHTML = `
+          <p class="invalide">❌ Attestation non reconnue</p>
+          <p>Veuillez vérifier le numéro entré.</p>
+        `;
+      }
+
+      resultatDiv.style.display = "block";
+    }
+  </script>
 </body>
 </html>
