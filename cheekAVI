@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Vérification AVI - Univers France Succès</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom right, #fbd3e9, #bbd9f7);
+      text-align: center;
+      padding: 20px;
+    }
+    .container {
+      background-color: white;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    }
+    img.logo {
+      width: 160px;
+      margin-bottom: 20px;
+    }
+    input {
+      padding: 12px;
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+    button {
+      background: linear-gradient(to right, #0072ff, #00c6ff);
+      border: none;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border-radius: 30px;
+      margin-top: 20px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .result {
+      margin-top: 30px;
+      text-align: left;
+      color: green;
+      font-weight: bold;
+    }
+    .error {
+      color: red;
+      margin-top: 30px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <img src="logo.png" alt="Logo Univers France Succès" class="logo">
+    <h3>Contrôle de l'authenticité de l'Attestation de Virement Irrévocable</h3>
+    <label for="id">Identifiant Étudiant UFS :</label>
+    <input type="text" id="id" placeholder="Entrez votre identifiant">
+    <button onclick="verifierIdentifiant()">Je vérifie le document</button>
+    <div id="output"></div>
+  </div>
+
+  <script>
+    const database = {
+      "U221FS117616": {
+        nom: "DIAGNE Alioune",
+        date: "19 juin 2025",
+        montant: "615 €",
+        duree: "12 Mois"
+      },
+      "U231FS118999": {
+        nom: "NDAO Talla",
+        date: "02 juillet 2025",
+        montant: "700 €",
+        duree: "12 Mois"
+      }
+    };
+
+    function verifierIdentifiant() {
+      const id = document.getElementById('id').value.trim();
+      const info = database[id];
+      const output = document.getElementById('output');
+      output.innerHTML = '';
+
+      if(info) {
+        output.innerHTML = `
+          <div class="result">
+            ✅ L'attestation est authentique !<br><br>
+            Nom et prénom de l'étudiant(e) : <strong>${info.nom}</strong><br>
+            Numéro de l'AVI : <strong>${id}</strong><br>
+            Date de délivrance : <strong>${info.date}</strong><br>
+            Montant mensuel de la caution : <strong>${info.montant}</strong><br>
+            Nombre de mois de blocage : <strong>${info.duree}</strong><br><br>
+            <button onclick="retourAccueil()">Retour</button>
+          </div>
+        `;
+      } else {
+        output.innerHTML = `<div class="error">❌ Identifiant invalide. Veuillez réessayer.</div>`;
+      }
+    }
+
+    function retourAccueil() {
+      document.getElementById('id').value = '';
+      document.getElementById('output').innerHTML = '';
+    }
+  </script>
+</body>
+</html>
