@@ -3,34 +3,57 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Vérification AVI - Univers France Succès</title>
+  <title>Contrôle d'Authenticité - AVI</title>
   <style>
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(to right, #f4f4f4, #ffe9f9);
-      text-align: center;
-      padding: 40px;
+      background: linear-gradient(to bottom right, #ffe9f9, #f4f4f4);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
     }
-    .carte {
+    .container {
       background: white;
       border-radius: 20px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      display: inline-block;
       padding: 30px;
-      text-align: left;
-      margin-top: 20px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
     }
-    input, button {
-      padding: 10px;
-      margin-top: 15px;
+    .logo {
+      width: 150px;
+      margin-bottom: 20px;
+    }
+    h2 {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
       font-size: 16px;
     }
     button {
-      background: #007bff;
+      background: linear-gradient(to right, #007bff, #00c6ff);
       color: white;
       border: none;
-      border-radius: 5px;
+      padding: 12px;
+      width: 100%;
+      border-radius: 8px;
+      font-size: 16px;
+      margin-top: 20px;
       cursor: pointer;
+    }
+    .result {
+      margin-top: 20px;
+      text-align: left;
     }
     .valide {
       color: green;
@@ -43,19 +66,18 @@
   </style>
 </head>
 <body>
-  <img src="logo.png" alt="Logo Univers France Succès" width="150"><br><br>
-  <h1>Vérifiez votre attestation AVI</h1>
-
-  <input type="text" id="aviInput" placeholder="Entrez votre numéro AVI">
-  <br>
-  <button onclick="verifierAVI()">Vérifier</button>
-
-  <div id="resultat" class="carte" style="display:none;"></div>
+  <div class="container">
+    <img src="logo.png" alt="Logo Univers France Succès" class="logo">
+    <h2>Contrôle de l'authenticité de l'Attestation de Virement Irrévocable</h2>
+    <input type="text" id="aviInput" placeholder="Entrez votre identifiant">
+    <button onclick="verifier()">Je vérifie le document</button>
+    <div class="result" id="resultat"></div>
+  </div>
 
   <script>
     const base = {
-      "U221FS346619": {
-        nom: "Khadim SECK",
+      "U221FS346618": {
+        nom: "SECK Amy",
         date: "4 juillet 2025",
         montant: "615 €",
         mois: "12 Mois"
@@ -68,28 +90,23 @@
       }
     };
 
-    function verifierAVI() {
+    function verifier() {
       const avi = document.getElementById("aviInput").value.trim();
-      const resultatDiv = document.getElementById("resultat");
+      const resultDiv = document.getElementById("resultat");
 
       if (avi in base) {
         const data = base[avi];
-        resultatDiv.innerHTML = `
+        resultDiv.innerHTML = `
           <p class="valide">✔️ L'attestation est authentique !</p>
-          <p><strong>Nom et prénom :</strong> ${data.nom}</p>
+          <p><strong>Nom :</strong> ${data.nom}</p>
           <p><strong>Numéro de l'AVI :</strong> ${avi}</p>
           <p><strong>Date de délivrance :</strong> ${data.date}</p>
           <p><strong>Montant mensuel :</strong> ${data.montant}</p>
           <p><strong>Durée :</strong> ${data.mois}</p>
         `;
       } else {
-        resultatDiv.innerHTML = `
-          <p class="invalide">❌ Attestation non reconnue</p>
-          <p>Veuillez vérifier le numéro entré.</p>
-        `;
+        resultDiv.innerHTML = '<p class="invalide">❌ Attestation non reconnue</p>';
       }
-
-      resultatDiv.style.display = "block";
     }
   </script>
 </body>
